@@ -13,7 +13,8 @@
         android:layout_marginHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="@string/type_number_only"/>
 
     <TextView
         android:id="@+id/textView"

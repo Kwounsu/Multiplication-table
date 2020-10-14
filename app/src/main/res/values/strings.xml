@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MVP RxJava</string>
+    <string name="type_number_only">Type Number Only</string>
 </resources>

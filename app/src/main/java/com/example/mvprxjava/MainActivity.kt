@@ -1,6 +1,7 @@
 package com.example.mvprxjava
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,18 @@ class MainActivity : AppCompatActivity() {
         val subject = BehaviorSubject.createDefault("0")
         editText.addTextChangedListener {
 
+            subject.map { editText.text.toString() == "" }
+                .flatMap({ BehaviorSubject.range(1, 9) }
+                ) { _, row -> "0 x $row = 0\n" }
+                .scan { x, y -> x + y }
+                .subscribe { text -> textView.text = text }
+
+            subject.map { editText.text.toString().toLong() }
+                .flatMap({ BehaviorSubject.range(1, 9) }
+                ) { dan, row -> dan.toString() + " x " + row + " = " + dan * row + "\n" }
+                .scan { x, y -> x + y }
+                .doOnNext { data -> Log.d("onNext()", data) }
+                .subscribe({ text -> textView.text = text }) { obj: Throwable -> obj.message }
         }
     }
 }
