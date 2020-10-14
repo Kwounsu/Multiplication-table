@@ -1,9 +1,6 @@
 package com.example.mvprxjava
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import io.reactivex.subjects.BehaviorSubject
@@ -18,13 +15,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val editText = findViewById<EditText>(R.id.editText)
-        val textView = findViewById<TextView>(R.id.textView)
-
-        val subject = BehaviorSubject.createDefault("0")
+//        val subject = BehaviorSubject.createDefault("0")
         editText.addTextChangedListener {
             try {
-                presenter.calc(getNum())
+                presenter.calc(editText.text.toString())
             } catch (e:Exception){
                 println(e)
             }
@@ -43,9 +37,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
     }
 
-    override fun setCalcResult(x: Long, res: Long) {
-        textView.text = "$x * 5 = $res"
+    override fun setCalcResult(x: String) {
+        textView.text = x
     }
-
-    override fun getNum(): Long = editText.text.toString().toLong()
 }
