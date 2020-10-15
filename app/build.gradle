@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'jacoco'
 
 android {
     compileSdkVersion 29
@@ -17,9 +18,21 @@ android {
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+        unitTests.all{
+            jacoco{ includeNoLocationClasses = true}
         }
     }
 
@@ -46,3 +59,26 @@ dependencies {
     // RxJava
     implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
 }
+
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+    reports {
+        xml.enabled = false
+        csv.enabled = false
+        html.enabled = true
+    }
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+
+    sourceDirectories.from = files('src/main/java/com/example/employeedemo')
+    classDirectories.from = files([debugTree])
+    executionData.from = files('build/jacoco/testDebugUnitTest.exec')
+}
+
+/*
+ * 1. Terminal: ./gradlew createDebugCoverageReport
+ * 2. Open Project/app/build/reports/coverage/debug/index.html in Web
+ */
