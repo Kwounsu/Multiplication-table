@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), MainContract.View {
 
@@ -15,11 +14,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         setContentView(R.layout.activity_main)
 
         editText.addTextChangedListener {
-            try {
-                presenter.calc(editText.text.toString())
-            } catch (e:Exception){
-                println(e)
-            }
+            presenter.calc(editText.text.toString())
         }
     }
 
