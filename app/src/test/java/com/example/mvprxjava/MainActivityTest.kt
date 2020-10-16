@@ -1,18 +1,18 @@
 package com.example.mvprxjava
 
+import android.R
 import android.os.Build
-import androidx.core.widget.addTextChangedListener
 import androidx.test.core.app.ActivityScenario
 import kotlinx.android.synthetic.main.activity_main.*
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
-import java.lang.Exception
+
 
 @Config(manifest = Config.NONE, sdk = [Build.VERSION_CODES.O_MR1])
 @RunWith(RobolectricTestRunner::class)
@@ -54,12 +54,10 @@ class MainActivityTest {
     }
 
     @Test
-    fun someTest() {
+    fun testChangeListener() {
         scenario.onActivity { activity ->
-            activity.editText.addTextChangedListener {
-                activity.presenter.calc(activity.editText.text.toString())
-            }
+            activity.editText.setText("1")
+            Shadows.shadowOf(activity.editText).watchers[0].afterTextChanged(null)
         }
     }
-
 }
