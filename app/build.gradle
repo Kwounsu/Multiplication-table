@@ -83,6 +83,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 }
 
 /*
- * 1. Terminal: ./gradlew createDebugCoverageReport
- * 2. Open Project/app/build/reports/coverage/debug/index.html in Web
+ * 1. execute gradle task -> app:jacocoTestReport
+ * 2. Open Project/app/build/reports/jacoco/html/index.html in Web
  */
